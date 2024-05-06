@@ -1,0 +1,16 @@
+{
+  "eslint.validate": ["javascript", "javascriptreact", "typescript"],
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "editor.tabSize": 2,
+  "eslint.options": {
+    "overrideConfigFile": ".eslintrc.cjs"
+  },
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "stylelint.validate": ["css", "scss", "less"],
+  "stylelint.enable": true
+}
