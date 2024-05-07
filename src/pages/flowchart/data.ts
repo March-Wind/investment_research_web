@@ -1,134 +1,16 @@
 import { Graph, Shape } from '@antv/x6';
 import { edgeAttrs, addLabelAttr, addEdgeAttr, addEdgeTools } from './setting';
 
-const connecting = {
-  router: 'normal',
-  connector: {
-    name: 'jumpover',
-    args: {
-      radius: 90,
-    },
-  },
-  anchor: 'center',
-  connectionPoint: 'rect',
-  snap: true,
-  allowBlank: false,
-  allowLoop: false,
-  highlight: true,
-  // snap: {
-  //   radius: 20,
-  // },
-  createEdge() {
-    return new Shape.Edge({
-      attrs: {
-        line: {
-          stroke: '#A2B1C3',
-          strokeWidth: 2,
-          targetMarker: {
-            name: 'block',
-            width: 12,
-            height: 8,
-          },
-        },
-      },
-      zIndex: 0,
-    });
-  },
-  validateConnection({ targetMagnet }) {
-    return !!targetMagnet;
-  },
-};
-
-const ports = {
-  groups: {
-    top: {
-      position: { name: 'top' },
-      attrs: {
-        circle: {
-          r: 4,
-          magnet: true,
-          stroke: '#5F95FF',
-          strokeWidth: 1,
-          fill: '#fff',
-          style: {
-            visibility: 'hidden',
-          },
-        },
-      },
-    },
-    right: {
-      position: { name: 'right' },
-      attrs: {
-        circle: {
-          r: 4,
-          magnet: true,
-          stroke: '#5F95FF',
-          strokeWidth: 1,
-          fill: '#fff',
-          style: {
-            visibility: 'hidden',
-          },
-        },
-      },
-    },
-    bottom: {
-      position: { name: 'bottom' },
-      attrs: {
-        circle: {
-          r: 4,
-          magnet: true,
-          stroke: '#5F95FF',
-          strokeWidth: 1,
-          fill: '#fff',
-          style: {
-            visibility: 'hidden',
-          },
-        },
-      },
-      args: { x: 50, y: 50, angle: 90 },
-    },
-    left: {
-      position: { name: 'left' },
-      attrs: {
-        circle: {
-          r: 4,
-          magnet: true,
-          stroke: '#5F95FF',
-          strokeWidth: 1,
-          fill: '#fff',
-          style: {
-            visibility: 'hidden',
-          },
-        },
-      },
-    },
-  },
-  items: [
-    {
-      group: 'top',
-    },
-    {
-      group: 'right',
-    },
-    {
-      group: 'bottom',
-    },
-    {
-      group: 'left',
-    },
-  ],
-};
 const data = {
   nodes: [
     {
       id: '1',
       shape: 'custom-rect',
-      label: '设计与模拟',
+      label: '设计与模拟sdfljk老师的会计法蓝思科技离开家离开家离开家',
       description: '利用集成电路设计原理设计芯片布局和功能模拟。',
       width: 100,
       height: 40,
       magnet: true,
-      ports,
     },
     {
       id: '2',
@@ -137,7 +19,6 @@ const data = {
       width: 100,
       height: 40,
       shape: 'custom-rect',
-      ports,
     },
     {
       id: '3',
@@ -213,38 +94,18 @@ const data = {
       // sourcePort: 'right', // connect to the 'top' anchor point on node1
       // targetPort: 'bottom',
       label: '过度',
-      tools: [
-        {
-          name: 'button-remove',
-          args: { distance: 20 },
-        },
-        // 'source-arrowhead',
-        // {
-        //   name: 'target-arrowhead',
-        //   args: {
-        //     attrs: {
-        //       fill: 'red',
-        //     },
-        //   },
-        // },
-      ],
     },
     {
       source: '2',
       target: '3',
+      shape: 'custom-edge',
       label: '材料准备完毕->开始光刻',
-      connecting,
-      tools: [
-        {
-          name: 'button-remove',
-          args: { distance: 20 },
-        },
-      ],
     },
     {
       source: '3',
       target: '4',
-      label: '光刻完成->进行蚀刻',
+      shape: 'custom-edge',
+      label: '光刻完成->进行蚀刻sdkflhk ',
     },
     {
       source: '4',

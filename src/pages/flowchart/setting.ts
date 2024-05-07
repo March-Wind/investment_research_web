@@ -74,7 +74,7 @@ const addLabelAttr = (edges: Edge.Metadata[]): Edge.Metadata[] => {
     edge.labels = [
       {
         attrs: {
-          text: {
+          label: {
             text: edge.label,
             fontSize: labelFontSize,
           },

@@ -12,7 +12,6 @@ import { Clipboard } from '@antv/x6-plugin-clipboard';
 import { History } from '@antv/x6-plugin-history';
 import { Scroller } from '@antv/x6-plugin-scroller';
 import { ports, edgeAttrs, labelFontSize } from './setting';
-import Label from './edge-label';
 import './index.scss';
 import { data } from './data';
 class App extends React.Component {
@@ -26,7 +25,7 @@ class App extends React.Component {
         strokeWidth: 1,
         // sourceMarker: 'circle',
         // targetMarker: 'block',
-        // targetMarker: { // 煎肉
+        // targetMarker: { // 箭头
         //   name: 'block',
         //   width: 12,
         //   height: 8,
@@ -35,8 +34,10 @@ class App extends React.Component {
       attrs: {
         label: {
           textWrap: {
-            width: 20,
-            ellipsis: true,
+            width: -10, // 宽度减少 10px
+            // height: '80%', // 高度为参照元素高度的一半
+            ellipsis: true, // 文本超出显示范围时，自动添加省略号
+            breakWord: true, // 是否截断单词
           },
         },
       },
@@ -401,46 +402,6 @@ class App extends React.Component {
           return !!targetMagnet;
         },
       },
-      // onEdgeLabelRendered: (args) => {
-      //   const { selectors, edge } = args;
-
-      //   // const targetCell = edge.getTargetCell();
-      //   // const sourceCell = edge.getSourceCell();
-      //   // const label = edge.getLabelAt(0);
-      //   // if (!targetCell || !sourceCell || !label) {
-      //   //   return;
-      //   // }
-      //   // const { position: tP, size: tS } = targetCell.getProp(); // 节点上所有的信息都可以拿到
-      //   // const { position: sP, size: sS } = sourceCell.getProp(); // 节点上所有的信息都可以拿到
-      //   // const source = edge.getSource();
-      //   // const target = edge.getTarget();
-      //   // const tPX = target.port === 'right' ? tP.x + tS.width : tP.x;
-      //   // const tPY = target.port === 'bottom' ? tP.y + tS.height : tP.y;
-      //   // const sPX = source.port === 'right' ? sP.x + sS.width : sP.x;
-      //   // const sPY = source.port === 'bottom' ? sP.y + sS.height : sP.y;
-      //   // const xPow = Math.pow(Math.abs(tPX - sPX), 2);
-      //   // const yPow = Math.pow(Math.abs(tPY - sPY), 2);
-      //   // const length = Math.floor(Math.sqrt(yPow + xPow));
-      //   // const text = (label?.attrs?.text.text as string) || '';
-      //   // const remainTextNum = Math.floor((length - 20) / 14) - 1;
-      //   // if (/CMP/.test(text)) {
-      //   //   debugger;
-      //   // }
-      //   // label.attrs!.text.text = text.slice(0, remainTextNum);
-      //   // label.position = {
-      //   //   options: {
-      //   //     keepGradient: true,
-      //   //     ensureLegibility: true,
-      //   //   },
-      //   // };
-
-      //   // const content = selectors.foContent as HTMLDivElement;
-      //   // if (content) {
-      //   //   const root = createRoot(content);
-      //   //   root.render(<Label />);
-      //   // }
-      //   return undefined;
-      // },
       highlighting: {
         magnetAdsorbed: {
           name: 'stroke',
@@ -481,132 +442,16 @@ class App extends React.Component {
         }),
       );
     this.graph = graph;
-    // const source = graph.addNode({
-    //   id: '1',
-    //   x: 40,
-    //   y: 40,
-    //   width: 100,
-    //   height: 40,
-    //   label: 'source',
-    //   attrs: {
-    //     body: {
-    //       stroke: '#8f8f8f',
-    //       strokeWidth: 1,
-    //       fill: '#fff',
-    //       rx: 6,
-    //       ry: 6,
-    //     },
-    //     label: {
-    //       textWrap: {
-    //         text: 'sdfsdlfjlj',
-    //         width: 20,
-    //         ellipse: true,
-    //       },
-    //     },
-    //   },
-    //   tools: [
-    //     {
-    //       name: 'button-remove',
-    //       args: {
-    //         x: '100%',
-    //         y: 0,
-    //         offset: { x: -10, y: 10 },
-    //       },
-    //     },
-    //     'node-editor',
-    //   ],
-    //   ports,
-    // });
 
-    // const target = graph.addNode({
-    //   id: '2',
-    //   x: 120,
-    //   y: 160,
-    //   width: 100,
-    //   height: 40,
-    //   label: 'target',
-    //   attrs: {
-    //     body: {
-    //       stroke: '#8f8f8f',
-    //       strokeWidth: 1,
-    //       fill: '#fff',
-    //       rx: 6,
-    //       ry: 6,
-    //     },
-    //   },
-    //   tools: ['node-editor'],
-    //   ports,
-    // });
-
-    // const _edge = graph.addEdge({
-    //   source: { cell: '1' },
-    //   target: { cell: '2' },
-    //   sourcePort: 'bottom',
-    //   targetPort: 'bottom',
-    //   labels: [
-    //     {
-    //       attrs: {
-    //         text: {
-    //           text: 'First',
-    //         },
-    //       },
-    //       position: {
-    //         options: {
-    //           keepGradient: true,
-    //           ensureLegibility: true,
-    //         },
-    //       },
-    //     },
-    //   ],
-    //   // defaultLabel: {
-    //   //   attrs: {
-    //   //     textWrap: {
-    //   //       text: 'sdfsdlfjlj',
-    //   //       width: 20,
-    //   //       ellipse: true,
-    //   //     },
-    //   //   },
-    //   // },
-    //   // defaultLabel: {
-    //   //   markup: Markup.getForeignObjectMarkup(),
-    //   //   attrs: {
-    //   //     fo: {
-    //   //       width: 120,
-    //   //       height: 30,
-    //   //       x: 0,
-    //   //       y: 0,
-    //   //     },
-    //   //   },
-    //   // },
-    //   attrs: {
-    //     text: {
-    //       text: 'First',
-    //     },
-    //     line: {
-    //       stroke: '#8f8f8f',
-    //       strokeWidth: 1,
-    //       color: 'rgb(95, 149, 255)',
-    //     },
-    //   },
-    //   tools: ['edge-editor'],
-    // });
     /*** edge工具-start ****/
     graph.on('edge:mouseenter', (params) => {
-      const { edge } = params;
-      edge.addTools({
-        name: 'button-remove',
-        // args: {
-        //   x: 0,
-        //   y: 0,
-        //   offset: { x: 10, y: 10 },
-        // },
-        args: { distance: 20 },
-      });
+      const buttonRemove = (params.view?.tools?.tools || []).find((tool) => tool.name === 'button-remove');
+      buttonRemove?.show();
     });
 
     graph.on('edge:mouseleave', (params) => {
-      const { edge } = params;
-      edge.removeTool('button-remove');
+      const buttonRemove = (params.view?.tools?.tools || []).find((tool) => tool.name === 'button-remove');
+      buttonRemove?.hide();
     });
     /*** edge工具-end ****/
 
@@ -643,6 +488,9 @@ class App extends React.Component {
     const __data = this.adjustConnectionPort(_data);
     this.adjustEdgeLabel(__data);
     this.graph.fromJSON(__data);
+    // const ___data =
+    //   '[{"position":{"x":125,"y":16.666666666666657},"size":{"width":100,"height":40},"attrs":{"text":{"text":"最终测试"}},"visible":true,"shape":"custom-rect","ports":{"groups":{"top":{"position":"top","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"right":{"position":"right","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"bottom":{"position":"bottom","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"left":{"position":"left","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}}},"items":[{"group":"top","id":"top"},{"group":"right","id":"right"},{"group":"bottom","id":"bottom"},{"group":"left","id":"left"}]},"id":"10","description":"对封装后的芯片进行最终性能测试，确保质量控制。","zIndex":1},{"position":{"x":375,"y":166.66666666666666},"size":{"width":100,"height":40},"attrs":{"text":{"text":"封装"}},"visible":true,"shape":"custom-rect","ports":{"groups":{"top":{"position":"top","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"right":{"position":"right","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"bottom":{"position":"bottom","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"left":{"position":"left","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}}},"items":[{"group":"top","id":"top"},{"group":"right","id":"right"},{"group":"bottom","id":"bottom"},{"group":"left","id":"left"}]},"id":"9","description":"将测试合格的芯片进行封装，保证其在实际应用中的物理保护和电连接。","zIndex":1},{"position":{"x":625,"y":166.66666666666666},"size":{"width":100,"height":40},"attrs":{"text":{"text":"检测与测试"}},"visible":true,"shape":"custom-rect","ports":{"groups":{"top":{"position":"top","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"right":{"position":"right","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"bottom":{"position":"bottom","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"left":{"position":"left","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}}},"items":[{"group":"top","id":"top"},{"group":"right","id":"right"},{"group":"bottom","id":"bottom"},{"group":"left","id":"left"}]},"id":"8","description":"通过电学测试和故障分析确保芯片的功能符合设计规范。","zIndex":1},{"position":{"x":875,"y":166.66666666666666},"size":{"width":100,"height":40},"attrs":{"text":{"text":"化学机械抛光（CMP）"}},"visible":true,"shape":"custom-rect","ports":{"groups":{"top":{"position":"top","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"right":{"position":"right","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"bottom":{"position":"bottom","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"left":{"position":"left","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}}},"items":[{"group":"top","id":"top"},{"group":"right","id":"right"},{"group":"bottom","id":"bottom"},{"group":"left","id":"left"}]},"id":"7","description":"对芯片表面进行平整，以确保光刻过程的精确性。","zIndex":1},{"position":{"x":125,"y":500},"size":{"width":100,"height":40},"attrs":{"text":{"text":"沉积"}},"visible":true,"shape":"custom-rect","ports":{"groups":{"top":{"position":"top","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"right":{"position":"right","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"bottom":{"position":"bottom","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"left":{"position":"left","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}}},"items":[{"group":"top","id":"top"},{"group":"right","id":"right"},{"group":"bottom","id":"bottom"},{"group":"left","id":"left"}]},"id":"6","description":"使用化学气相沉积（CVD）、物理气相沉积（PVD）等技术在芯片表面沉积绝缘层和金属层。","zIndex":1},{"position":{"x":375,"y":500},"size":{"width":100,"height":40},"attrs":{"text":{"text":"掺杂"}},"visible":true,"shape":"custom-rect","ports":{"groups":{"top":{"position":"top","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"right":{"position":"right","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"bottom":{"position":"bottom","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"left":{"position":"left","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}}},"items":[{"group":"top","id":"top"},{"group":"right","id":"right"},{"group":"bottom","id":"bottom"},{"group":"left","id":"left"}]},"id":"5","description":"通过离子注入或扩散的方式在半导体材料中引入杂质，改变其电学性质。","zIndex":1},{"position":{"x":625,"y":500},"size":{"width":100,"height":40},"attrs":{"text":{"text":"蚀刻"}},"visible":true,"shape":"custom-rect","ports":{"groups":{"top":{"position":"top","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"right":{"position":"right","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"bottom":{"position":"bottom","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"left":{"position":"left","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}}},"items":[{"group":"top","id":"top"},{"group":"right","id":"right"},{"group":"bottom","id":"bottom"},{"group":"left","id":"left"}]},"id":"4","description":"采用湿法或干法蚀刻技术去除多余的材料，形成电路图案。","zIndex":1},{"position":{"x":875,"y":500},"size":{"width":100,"height":40},"attrs":{"text":{"text":"光刻"}},"visible":true,"shape":"custom-rect","ports":{"groups":{"top":{"position":"top","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"right":{"position":"right","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"bottom":{"position":"bottom","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}},"left":{"position":"left","attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999}}}},"items":[{"group":"top","id":"top"},{"group":"right","id":"right"},{"group":"bottom","id":"bottom"},{"group":"left","id":"left"}]},"id":"3","description":"利用光刻技术在半导体表面形成所需图案。","zIndex":1},{"position":{"x":125,"y":833.3333333333333},"size":{"width":100,"height":40},"attrs":{"text":{"text":"材料准备"}},"visible":true,"shape":"custom-rect","ports":{"groups":{"top":{"position":{"name":"top"},"attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999,"style":{"visibility":"hidden"}}}},"right":{"position":{"name":"right"},"attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999,"style":{"visibility":"hidden"}}}},"bottom":{"position":{"name":"bottom"},"attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999,"style":{"visibility":"hidden"}}},"args":{"x":50,"y":50,"angle":90}},"left":{"position":{"name":"left"},"attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999,"style":{"visibility":"hidden"}}}}},"items":[{"group":"top","id":"top"},{"group":"right","id":"right"},{"group":"bottom","id":"bottom"},{"group":"left","id":"left"}]},"id":"2","description":"选择合适的半导体材料，常用的是硅。","zIndex":1},{"position":{"x":375,"y":833.3333333333333},"size":{"width":100,"height":40},"attrs":{"text":{"text":"设计与模拟sdfljk"}},"visible":true,"shape":"custom-rect","ports":{"groups":{"top":{"position":{"name":"top"},"attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999,"style":{"visibility":"hidden"}}}},"right":{"position":{"name":"right"},"attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999,"style":{"visibility":"hidden"}}}},"bottom":{"position":{"name":"bottom"},"attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999,"style":{"visibility":"hidden"}}},"args":{"x":50,"y":50,"angle":90}},"left":{"position":{"name":"left"},"attrs":{"circle":{"r":4,"magnet":true,"stroke":"#5F95FF","strokeWidth":1,"fill":"#fff","zIndex":999,"style":{"visibility":"hidden"}}}}},"items":[{"group":"top","id":"top"},{"group":"right","id":"right"},{"group":"bottom","id":"bottom"},{"group":"left","id":"left"}]},"id":"1","description":"利用集成电路设计原理设计芯片布局和功能模拟。","magnet":true,"zIndex":1},{"shape":"custom-edge","attrs":{"line":{"stroke":"#8f8f8f","strokeWidth":1}},"line":{"stroke":"#eeeeee","strokeWidth":1},"id":"4f34c079-adc4-47a0-bea3-e488992ecb77","labels":[{"attrs":{"label":{"text":"过度","fontSize":14,"originText":"过度"}},"position":{"options":{"keepGradient":true,"ensureLegibility":true}}}],"zIndex":1,"source":{"cell":"1","port":"left"},"target":{"cell":"2","port":"right"},"tools":{"items":[{"name":"button-remove","args":{"distance":20}},"edge-editor"]}},{"shape":"edge","attrs":{"line":{"stroke":"#8f8f8f","strokeWidth":1}},"id":"6c41b13e-ae8f-4d8c-a375-17d876a53497","connecting":{"router":"normal","connector":{"name":"jumpover","args":{"radius":90}},"anchor":"center","connectionPoint":"rect","snap":true,"allowBlank":false,"allowLoop":false,"highlight":true},"labels":[{"attrs":{"label":{"text":"材料准备完毕->开始光刻","fontSize":14,"originText":"材料准备完毕->开始光刻"}},"position":{"options":{"keepGradient":true,"ensureLegibility":true}}}],"zIndex":1,"source":{"cell":"2","port":"right"},"target":{"cell":"3","port":"bottom"},"tools":{"items":[{"name":"button-remove","args":{"distance":20}},"edge-editor"]}},{"shape":"edge","attrs":{"line":{"stroke":"#8f8f8f","strokeWidth":1}},"id":"3cfa687e-8261-4235-a5ee-5ee12fa2b5bf","labels":[{"attrs":{"label":{"text":"光刻完成->进行...","fontSize":14,"originText":"光刻完成->进行蚀刻"}},"position":{"options":{"keepGradient":true,"ensureLegibility":true}}}],"zIndex":1,"source":{"cell":"3","port":"left"},"target":{"cell":"4","port":"right"},"tools":{"items":["edge-editor"]}},{"shape":"edge","attrs":{"line":{"stroke":"#8f8f8f","strokeWidth":1}},"id":"b360dcd5-6584-43a5-8b9e-f0befc62a94b","labels":[{"attrs":{"label":{"text":"蚀刻完成->开始...","fontSize":14,"originText":"蚀刻完成->开始掺杂"}},"position":{"options":{"keepGradient":true,"ensureLegibility":true}}}],"zIndex":1,"source":{"cell":"4","port":"left"},"target":{"cell":"5","port":"right"},"tools":{"items":["edge-editor"]}},{"shape":"edge","attrs":{"line":{"stroke":"#8f8f8f","strokeWidth":1}},"id":"3bc4dfcd-f8ea-4ffa-b9b8-1f4284c957a6","labels":[{"attrs":{"label":{"text":"掺杂完成->进行...","fontSize":14,"originText":"掺杂完成->进行沉积"}},"position":{"options":{"keepGradient":true,"ensureLegibility":true}}}],"zIndex":1,"source":{"cell":"5","port":"left"},"target":{"cell":"6","port":"right"},"tools":{"items":["edge-editor"]}},{"shape":"edge","attrs":{"line":{"stroke":"#8f8f8f","strokeWidth":1}},"id":"2c81afc9-814c-434f-9b4c-3c36abf6437f","labels":[{"attrs":{"label":{"text":"沉积完成->化学机械抛光","fontSize":14,"originText":"沉积完成->化学机械抛光"}},"position":{"options":{"keepGradient":true,"ensureLegibility":true}}}],"zIndex":1,"source":{"cell":"6","port":"right"},"target":{"cell":"7","port":"bottom"},"tools":{"items":["edge-editor"]}},{"shape":"edge","attrs":{"line":{"stroke":"#8f8f8f","strokeWidth":1}},"id":"4f587b1c-fdf5-42dc-b91d-b8c31fe2d2ec","labels":[{"attrs":{"label":{"text":"CMP完成->检...","fontSize":14,"originText":"CMP完成->检测与测试"}},"position":{"options":{"keepGradient":true,"ensureLegibility":true}}}],"zIndex":1,"source":{"cell":"7","port":"left"},"target":{"cell":"8","port":"right"},"tools":{"items":["edge-editor"]}},{"shape":"edge","attrs":{"line":{"stroke":"#8f8f8f","strokeWidth":1}},"id":"ce9b506e-7444-4048-983e-930731ceb1fa","labels":[{"attrs":{"label":{"text":"测试通过->进行...","fontSize":14,"originText":"测试通过->进行封装"}},"position":{"options":{"keepGradient":true,"ensureLegibility":true}}}],"zIndex":1,"source":{"cell":"8","port":"left"},"target":{"cell":"9","port":"right"},"tools":{"items":["edge-editor"]}},{"shape":"edge","attrs":{"line":{"stroke":"#8f8f8f","strokeWidth":1}},"id":"17bd4234-fccc-4b1d-bffc-7c561cb1e37c","labels":[{"attrs":{"label":{"text":"封装完成->最终...","fontSize":14,"originText":"封装完成->最终测试"}},"position":{"options":{"keepGradient":true,"ensureLegibility":true}}}],"zIndex":1,"source":{"cell":"9","port":"left"},"target":{"cell":"10","port":"right"},"tools":{"items":["edge-editor"]}}]';
+    // this.graph.fromJSON(JSON.parse(___data));
   }
 
   /**
@@ -725,10 +573,10 @@ class App extends React.Component {
       const yPow = Math.pow(Math.abs(tPY - sPY), 2);
       const length = Math.floor(Math.sqrt(yPow + xPow));
       const label = labels[0];
-      const text = (label?.attrs?.text.text as string) || '';
-      const remainTextNum = Math.floor((length - 20) / 14) - 1;
-      label.attrs!.text.originText = text;
-      label.attrs!.text.text = text.slice(0, remainTextNum) + (text.length > remainTextNum ? '...' : '');
+      const text = (label?.attrs?.label.text as string) || '';
+      const remainTextNum = Math.floor((length - 20) / labelFontSize) - 1;
+      label.attrs!.label.originText = text;
+      label.attrs!.label.text = text.slice(0, remainTextNum) + (text.length > remainTextNum ? '...' : '');
     });
   };
   refContainer = (container: HTMLDivElement) => {
@@ -813,3 +661,114 @@ class App extends React.Component {
   }
 }
 export default App;
+
+// const source = graph.addNode({
+//   id: '1',
+//   x: 40,
+//   y: 40,
+//   width: 100,
+//   height: 40,
+//   label: 'source',
+//   attrs: {
+//     body: {
+//       stroke: '#8f8f8f',
+//       strokeWidth: 1,
+//       fill: '#fff',
+//       rx: 6,
+//       ry: 6,
+//     },
+//     label: {
+//       textWrap: {
+//         text: 'sdfsdlfjlj',
+//         width: 20,
+//         ellipse: true,
+//       },
+//     },
+//   },
+//   tools: [
+//     {
+//       name: 'button-remove',
+//       args: {
+//         x: '100%',
+//         y: 0,
+//         offset: { x: -10, y: 10 },
+//       },
+//     },
+//     'node-editor',
+//   ],
+//   ports,
+// });
+
+// const target = graph.addNode({
+//   id: '2',
+//   x: 620,
+//   y: 160,
+//   width: 100,
+//   height: 40,
+//   label: 'target',
+//   attrs: {
+//     body: {
+//       stroke: '#8f8f8f',
+//       strokeWidth: 1,
+//       fill: '#fff',
+//       rx: 6,
+//       ry: 6,
+//     },
+//   },
+//   tools: ['node-editor'],
+//   ports,
+// });
+
+// const _edge = graph.addEdge({
+//   source: { cell: '1' },
+//   target: { cell: '2' },
+//   sourcePort: 'bottom',
+//   targetPort: 'bottom',
+//   labels: [
+//     {
+//       attrs: {
+//         label: {
+//           text: 'First',
+//         },
+//       },
+//       position: {
+//         distance: 0.2,
+//         options: {
+//           keepGradient: true,
+//           ensureLegibility: true,
+//         },
+//       },
+//     },
+//   ],
+//   // defaultLabel: {
+//   //   attrs: {
+//   //     textWrap: {
+//   //       text: 'sdfsdlfjlj',
+//   //       width: 20,
+//   //       ellipse: true,
+//   //     },
+//   //   },
+//   // },
+//   // defaultLabel: {
+//   //   markup: Markup.getForeignObjectMarkup(),
+//   //   attrs: {
+//   //     fo: {
+//   //       width: 120,
+//   //       height: 30,
+//   //       x: 0,
+//   //       y: 0,
+//   //     },
+//   //   },
+//   // },
+//   // attrs: {
+//   //   text: {
+//   //     text: 'First',
+//   //   },
+//   //   line: {
+//   //     stroke: '#8f8f8f',
+//   //     strokeWidth: 1,
+//   //     color: 'rgb(95, 149, 255)',
+//   //   },
+//   // },
+//   tools: ['edge-editor', 'button-remove'],
+// });

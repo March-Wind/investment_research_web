@@ -18,3 +18,17 @@
     box-shadow: 0 0 10px 1px #e9e9e9;
   }
 }
+// 选中时的样式
+.x6-edge:hover {
+  path:nth-child(2) {
+    stroke: #1890ff;
+    stroke-width: 1px;
+  }
+}
+
+.x6-edge-selected {
+  path:nth-child(2) {
+    stroke: #1890ff;
+    stroke-width: 1.5px !important;
+  }
+}
