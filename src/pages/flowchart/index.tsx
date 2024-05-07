@@ -14,6 +14,7 @@ import { Scroller } from '@antv/x6-plugin-scroller';
 import { ports, edgeAttrs, labelFontSize } from './setting';
 import './index.scss';
 import { data } from './data';
+import { CellEditor } from './custom_editor';
 class App extends React.Component {
   private container: HTMLDivElement;
   graph: Graph;
@@ -169,6 +170,7 @@ class App extends React.Component {
       },
       true,
     );
+    Graph.registerEdgeTool('custom-editor', CellEditor.EdgeEditor, true);
   };
   bindKeyboard = () => {
     // #region 快捷键与事件
@@ -364,7 +366,11 @@ class App extends React.Component {
   componentDidMount() {
     const graph = new Graph({
       container: this.container,
-      grid: true,
+      grid: {
+        visible: true,
+      },
+      autoResize: true,
+      // grid: true,
       background: {
         color: '#F2F7FA',
       },
@@ -439,10 +445,13 @@ class App extends React.Component {
       .use(
         new Scroller({
           enabled: true,
+          pageVisible: true,
+          pageBreak: true,
+          pannable: true,
         }),
       );
     this.graph = graph;
-
+    this.graph.drawGrid({ type: 'dot', args: [{ color: '#fff', thickness: 1 }] });
     /*** edge工具-start ****/
     graph.on('edge:mouseenter', (params) => {
       const buttonRemove = (params.view?.tools?.tools || []).find((tool) => tool.name === 'button-remove');
